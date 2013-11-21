@@ -3,7 +3,6 @@
 use WebService::NFSN;
 use Config::Tiny;
 use Net::DNS;
-use Socket qw();
 
 my $conf = Config::Tiny->new;
 $conf = $conf->read($ARGV[0] || "/etc/nfsn-update.conf") or die "Couldn't read config";
