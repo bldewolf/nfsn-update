@@ -1,0 +1,12 @@
+# this file is read by default from /etc/nfsn-update.conf, but an alternative
+# config can be passed as a single command line argument
+username=user
+api_key=key
+# this RR is relative to the domain
+RR=host
+domain=example.com
+# no_ipv4
+# no_ipv6
+# ipv4_foreign=1/1
+# ipv6_foreign=1::
+
