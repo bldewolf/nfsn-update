@@ -9,4 +9,4 @@ domain=example.com
 # no_ipv6
 # ipv4_foreign=1/1
 # ipv6_foreign=1::
-
+# ip_cmd=/sbin/ip

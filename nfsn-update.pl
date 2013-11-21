@@ -12,6 +12,8 @@ die "Not enough configs" if(!exists $conf->{_}->{username}
 	or !exists $conf->{_}->{RR}
 	or !exists $conf->{_}->{domain});
 
+my $IP_CMD = $conf->{_}->{ip_cmd} || "/usr/bin/ip";
+
 my @types;
 push @types, 'A' if(!exists $conf->{_}->{no_ipv4});
 push @types, 'AAAA' if(!exists $conf->{_}->{no_ipv6});
@@ -60,7 +62,7 @@ sub get_route_source {
 	my $dest = shift;
 
 	# hopefully, some day, I can poke netlink directly for this
-	open(my $ip, "-|", "ip -o route get $dest")
+	open(my $ip, "-|", "$IP_CMD -o route get $dest")
 		or die "Failed to open ip command for $dest: $!";
 	my $src;
 	while(<$ip>) {
