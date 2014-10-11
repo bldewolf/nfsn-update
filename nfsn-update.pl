@@ -28,7 +28,7 @@ my %new_addrs = get_new(\%foreign, \@types);
 # Check if any addrs have changed
 my $changed = 0;
 for my $type (@types) {
-	$changed = 1 if($old_addrs{$type} ne $new_addrs{$type});
+	$changed = 1 if(defined $new_addrs{type} and $old_addrs{$type} ne $new_addrs{$type});
 }
 
 # Push an update!
@@ -37,11 +37,16 @@ if($changed) {
 	my $dns = $n->dns($conf->{_}->{domain});
 
 	for my $type (@types) {
-		next if(!defined $old_addrs{$type} || $old_addrs{$type} eq $new_addrs{$type});
+		next if(!defined $old_addrs{$type} || !defined $new_addrs{$type});
+		next if($old_addrs{$type} eq $new_addrs{$type});
 		$dns->removeRR(name => $conf->{_}->{RR}, type => $type, data => "$old_addrs{$type}");
 	}
+
+	sleep 1;
+
 	for my $type (@types) {
-		next if(!defined $new_addrs{$type} || $old_addrs{$type} eq $new_addrs{$type});
+		next if(!defined $new_addrs{$type});
+		next if($old_addrs{$type} eq $new_addrs{$type});
 		$dns->addRR(name => $conf->{_}->{RR}, type => $type, data => "$new_addrs{$type}");
 	}
 }
@@ -70,6 +75,9 @@ sub get_route_source {
 		my @a = split;
 		# step through the fields of output looking for src
 		while(my $b = shift @a) {
+			if($b eq "unreachable") {
+				last;
+			}
 			if($b eq "src") {
 				$src = shift @a;
 				last;
