@@ -28,7 +28,7 @@ my %new_addrs = get_new(\%foreign, \@types);
 # Check if any addrs have changed
 my $changed = 0;
 for my $type (@types) {
-	$changed = 1 if(defined $new_addrs{type} and $old_addrs{$type} ne $new_addrs{$type});
+	$changed = 1 if(defined $new_addrs{$type} and $old_addrs{$type} ne $new_addrs{$type});
 }
 
 # Push an update!
